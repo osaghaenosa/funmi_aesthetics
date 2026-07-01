@@ -152,3 +152,13 @@ export const updateProfile = async (req, res, next) => {
     next(err);
   }
 };
+
+// GET /api/auth/users (Admin only)
+export const getAllUsers = async (req, res, next) => {
+  try {
+    const users = await User.find({}).sort('-createdAt');
+    res.json({ success: true, count: users.length, users });
+  } catch (err) {
+    next(err);
+  }
+};

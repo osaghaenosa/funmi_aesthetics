@@ -55,6 +55,7 @@ export const authApi = {
   refresh: () => api.post('/auth/refresh'),
   updateProfile: (data: Partial<{ firstName: string; lastName: string; phone: string; avatar: string }>) =>
     api.patch('/auth/update-profile', data),
+  getUsers: () => api.get('/auth/users'),
 };
 
 // ── Products ───────────────────────────────────────────────
@@ -64,6 +65,9 @@ export const productApi = {
   toggleWishlist: (id: string) => api.post(`/products/${id}/wishlist`),
   addReview: (id: string, data: { rating: number; comment: string }) =>
     api.post(`/products/${id}/reviews`, data),
+  create: (data: unknown) => api.post('/products', data),
+  update: (id: string, data: unknown) => api.patch(`/products/${id}`, data),
+  delete: (id: string) => api.delete(`/products/${id}`),
 };
 
 // ── Orders ─────────────────────────────────────────────────
@@ -72,4 +76,7 @@ export const orderApi = {
   myOrders: () => api.get('/orders/my'),
   getById: (id: string) => api.get(`/orders/${id}`),
   pay: (id: string, paymentResult: unknown) => api.patch(`/orders/${id}/pay`, paymentResult),
+  getAll: () => api.get('/orders'),
+  updateStatus: (id: string, data: { status: string; trackingNumber?: string }) =>
+    api.patch(`/orders/${id}/status`, data),
 };

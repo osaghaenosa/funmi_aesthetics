@@ -7,8 +7,9 @@ import {
   getMe,
   refreshToken,
   updateProfile,
+  getAllUsers,
 } from '../controllers/authController.js';
-import { protect } from '../middleware/auth.js';
+import { protect, adminOnly } from '../middleware/auth.js';
 
 const router = Router();
 
@@ -36,5 +37,6 @@ router.post('/logout', logout);
 router.post('/refresh', refreshToken);
 router.get('/me', protect, getMe);
 router.patch('/update-profile', protect, updateProfile);
+router.get('/users', protect, adminOnly, getAllUsers);
 
 export default router;
