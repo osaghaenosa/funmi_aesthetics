@@ -13,9 +13,14 @@ const BADGE_STYLES: Record<string, string> = {
   Sale: 'bg-ink text-warm-white',
 };
 
-const PLACEHOLDERS: Record<string, string> = {
-  "women's-fashion": '👗', "men's-fashion": '👔', bags: '👜',
-  footwear: '👟', 'home-decor': '🏺', appliances: '🔌', accessories: '💍',
+const CATEGORY_IMAGES: Record<string, string> = {
+  "women's-fashion": '/images/drape-midi.jpg',
+  "men's-fashion":   '/images/linen-trousers.jpg',
+  bags:              '/images/tote-bag.jpg',
+  footwear:          '/images/leather-sneakers.jpg',
+  'home-decor':      '/images/ceramic-lamp.jpg',
+  appliances:        '/images/terracotta-planters.jpg',
+  accessories:       '/images/gold-cuff.jpg',
 };
 
 export default function ProductCard({ product }: { product: Product }) {
@@ -29,20 +34,14 @@ export default function ProductCard({ product }: { product: Product }) {
 
   return (
     <Link href={`/products/${product.slug}`} className="group block card">
-      {/* Image */}
+        {/* Image */}
       <div className="relative aspect-[4/5] overflow-hidden bg-mist">
-        {product.images?.[0] ? (
-          <Image
-            src={product.images[0]}
-            alt={product.name}
-            fill
-            className="object-cover transition-transform duration-500 group-hover:scale-105"
-          />
-        ) : (
-          <div className="w-full h-full flex items-center justify-center text-6xl bg-gradient-to-br from-mist to-champagne-lt">
-            {PLACEHOLDERS[product.category] || '🛍️'}
-          </div>
-        )}
+        <Image
+          src={product.images?.[0] || CATEGORY_IMAGES[product.category] || '/images/drape-midi.jpg'}
+          alt={product.name}
+          fill
+          className="object-cover transition-transform duration-500 group-hover:scale-105"
+        />
 
         {product.badge && (
           <span className={`absolute top-3 left-3 px-3 py-1 text-[0.65rem] font-medium tracking-widest uppercase rounded-full ${BADGE_STYLES[product.badge] || 'bg-ink text-warm-white'}`}>

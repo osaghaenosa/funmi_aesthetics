@@ -17,8 +17,21 @@
 
 /* ── Global resets ── */
 html { scroll-behavior: smooth; }
-body { overflow-x: hidden; font-family: 'DM Sans', system-ui, sans-serif; }
+body {
+  overflow-x: hidden;
+  font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 * { box-sizing: border-box; }
+
+/* ── Font utilities (explicit — Tailwind v4 safe) ── */
+.font-display  { font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif !important; }
+.font-cormorant { font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif !important; }
+.font-sans     { font-family: 'DM Sans', system-ui, sans-serif !important; }
+.font-mono     { font-family: 'DM Mono', 'Fira Mono', monospace !important; }
+
 
 /* ── Reusable component classes ── */
 .btn-primary {

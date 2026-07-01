@@ -23,10 +23,11 @@ export default function NewsletterSection() {
 
       <div className="max-w-2xl mx-auto px-6 text-center relative z-10">
         <h2 className="font-display text-[clamp(2rem,3.5vw,3rem)] font-light text-warm-white mb-3">
-          Stay in the loop,<br />ahead of the trend
+          First Access.<br />Always.
         </h2>
         <p className="text-white/60 text-sm mb-9">
-          New arrivals, exclusive offers, and style inspiration — curated and delivered to you.
+          Join thousands who get early access to new drops, exclusive member discounts, and
+          curated style edits — straight to their inbox.
         </p>
         <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
           <input

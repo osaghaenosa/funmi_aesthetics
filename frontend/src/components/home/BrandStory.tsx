@@ -1,19 +1,37 @@
+import Image from 'next/image';
 import Link from 'next/link';
 
 export default function BrandStory() {
   return (
-    <section className="py-24">
+    <section className="py-24 overflow-hidden">
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid md:grid-cols-2 gap-20 items-center">
           {/* Visual */}
           <div className="relative">
-            <div className="rounded-lg aspect-[4/5] overflow-hidden bg-gradient-to-br from-sage to-sage-deep flex items-center justify-center text-8xl">
-              ✨
+            {/* Main image */}
+            <div className="rounded-2xl aspect-[4/5] overflow-hidden bg-mist relative">
+              <Image
+                src="/images/drape-midi.jpg"
+                alt="Funmi's Aesthetics — curated fashion"
+                fill
+                className="object-cover"
+              />
+              {/* subtle overlay for depth */}
+              <div className="absolute inset-0 bg-gradient-to-t from-ink/30 via-transparent to-transparent" />
             </div>
-            <div className="absolute bottom-[-28px] right-[-28px] w-[45%] aspect-square rounded-md border-[6px] border-warm-white shadow-xl overflow-hidden bg-gradient-to-br from-blush to-champagne flex items-center justify-center text-4xl">
-              🌿
+
+            {/* Floating secondary image */}
+            <div className="absolute bottom-[-28px] right-[-28px] w-[45%] aspect-square rounded-xl border-[5px] border-warm-white shadow-2xl overflow-hidden bg-mist">
+              <Image
+                src="/images/tote-bag.jpg"
+                alt="Premium bags"
+                fill
+                className="object-cover"
+              />
             </div>
-            <div className="absolute top-8 right-[-16px] bg-champagne text-ink px-5 py-4 rounded-md text-center shadow-lg shadow-champagne/30">
+
+            {/* Years badge */}
+            <div className="absolute top-8 right-[-16px] bg-champagne text-ink px-5 py-4 rounded-xl text-center shadow-lg shadow-champagne/30">
               <strong className="block font-display text-3xl font-light leading-none">4+</strong>
               <span className="font-mono text-[0.62rem] tracking-widest uppercase">Years<br/>Curating</span>
             </div>
@@ -32,7 +50,7 @@ export default function BrandStory() {
             <Link href="/about" className="btn-secondary">Read Full Story</Link>
 
             <div className="flex items-center gap-4 mt-9 pt-7 border-t border-ink/10">
-              <div className="w-14 h-14 rounded-full bg-gradient-to-br from-blush to-champagne flex items-center justify-center text-sm font-medium text-ink shrink-0">
+              <div className="w-14 h-14 rounded-full bg-gradient-to-br from-blush to-champagne flex items-center justify-center text-sm font-semibold text-ink shrink-0">
                 FA
               </div>
               <div>
