@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { AtSign, MessageCircle, Share2, Globe } from 'lucide-react';
 
 const shopLinks = [
@@ -14,6 +15,7 @@ const companyLinks = [
   { href: '/shipping', label: 'Shipping Policy' },
   { href: '/contact', label: 'Contact Us' },
   { href: '/account', label: 'My Account' },
+  { href: '/admin', label: 'Admin Portal' },
 ];
 
 const legalLinks = [
@@ -29,9 +31,18 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-14">
           {/* Brand */}
           <div>
-            <div className="font-display text-2xl text-warm-white mb-4">
-              Funmi<span className="text-champagne">&apos;s</span> Aesthetics
-            </div>
+            <Link href="/" className="flex items-center gap-3 mb-4">
+              <Image
+                src="/images/logo/logo.jpeg"
+                alt="Funmi's Aesthetics"
+                width={40}
+                height={40}
+                className="rounded-full object-cover border border-white/20"
+              />
+              <div className="font-display text-xl text-warm-white">
+                Funmi<span className="text-champagne">&apos;s</span> Aesthetics
+              </div>
+            </Link>
             <p className="text-sm leading-relaxed mb-6">
               Elevating Style, Comfort & Home —<br />
               For Every Aesthetic. Delivered Worldwide.

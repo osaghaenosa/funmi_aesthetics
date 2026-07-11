@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { ShoppingBag, User, Menu, X, Heart, Search } from 'lucide-react';
+import Image from 'next/image';
+import { ShoppingBag, User, Menu, X } from 'lucide-react';
 import { useCartStore } from '@/store/cartStore';
 import { useAuthStore } from '@/store/authStore';
 
@@ -41,8 +42,17 @@ export default function Navbar() {
       >
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between h-[70px]">
           {/* Logo */}
-          <Link href="/" className="font-display text-[1.45rem] font-medium tracking-wide">
-            Funmi<span className="text-champagne">&apos;s</span> Aesthetics
+          <Link href="/" className="flex items-center gap-2.5">
+            <Image
+              src="/images/logo/logo.jpeg"
+              alt="Funmi's Aesthetics"
+              width={42}
+              height={42}
+              className="rounded-full object-cover border border-champagne/20"
+            />
+            <span className="font-display text-[1.3rem] font-semibold tracking-wide text-ink">
+              Funmi<span className="text-champagne">&apos;s</span> Aesthetics
+            </span>
           </Link>
 
           {/* Desktop nav links */}
