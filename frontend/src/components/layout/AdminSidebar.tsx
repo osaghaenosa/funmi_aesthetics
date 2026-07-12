@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { LayoutDashboard, Package, ShoppingCart, Users, LogOut } from 'lucide-react';
-import useAuthStore from '@/store/authStore';
+import { useAuthStore } from '@/store/authStore';
 
 const navItems = [
   { name: 'Dashboard', href: '/admin', icon: LayoutDashboard },

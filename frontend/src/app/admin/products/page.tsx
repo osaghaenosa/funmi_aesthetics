@@ -2,12 +2,12 @@
 
 import { useEffect, useState } from 'react';
 import { productApi } from '@/lib/api';
-import useAuthStore from '@/store/authStore';
+import { useAuthStore } from '@/store/authStore';
 import Image from 'next/image';
 
 export default function AdminProducts() {
   const { user } = useAuthStore();
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

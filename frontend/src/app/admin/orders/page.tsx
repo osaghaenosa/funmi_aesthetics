@@ -2,11 +2,11 @@
 
 import { useEffect, useState } from 'react';
 import { orderApi } from '@/lib/api';
-import useAuthStore from '@/store/authStore';
+import { useAuthStore } from '@/store/authStore';
 
 export default function AdminOrders() {
   const { user } = useAuthStore();
-  const [orders, setOrders] = useState([]);
+  const [orders, setOrders] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

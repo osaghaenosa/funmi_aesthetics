@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { Users, ShoppingCart, Package } from 'lucide-react';
 import { authApi, orderApi, productApi } from '@/lib/api';
-import useAuthStore from '@/store/authStore';
+import { useAuthStore } from '@/store/authStore';
 import { useRouter } from 'next/navigation';
 
 export default function AdminDashboard() {

@@ -2,12 +2,12 @@
 
 import { useEffect, useState } from 'react';
 import { authApi } from '@/lib/api';
-import useAuthStore from '@/store/authStore';
+import { useAuthStore } from '@/store/authStore';
 import { Mail } from 'lucide-react';
 
 export default function AdminUsers() {
   const { user } = useAuthStore();
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
