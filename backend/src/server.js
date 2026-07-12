@@ -37,7 +37,7 @@ if (process.env.NODE_ENV !== 'production') {
 // ── Rate Limiting ──────────────────────────────────────────
 const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 min
-  max: 20,
+  max: 500,
   message: { success: false, message: 'Too many requests, please try again later.' },
 });
 

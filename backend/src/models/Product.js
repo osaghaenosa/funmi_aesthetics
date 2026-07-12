@@ -20,7 +20,6 @@ const productSchema = new mongoose.Schema(
     category:    {
       type: String,
       required: true,
-      enum: ["women's-fashion", "men's-fashion", 'bags', 'footwear', 'home-decor', 'appliances', 'accessories'],
     },
     gender:      { type: String, enum: ['women', 'men', 'unisex'], default: 'unisex' },
     images:      [{ type: String }],
