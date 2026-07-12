@@ -121,8 +121,8 @@ export default function AboutPage() {
               </Link>
 
               <div className="flex items-center gap-4 mt-9 pt-7 border-t border-ink/10">
-                <div className="w-14 h-14 rounded-full bg-gradient-to-br from-blush to-champagne flex items-center justify-center text-sm font-semibold text-ink shrink-0">
-                  FA
+                <div className="w-14 h-14 rounded-full overflow-hidden relative shrink-0 border-2 border-champagne/30">
+                  <Image src="/about/funmi_image.jpeg" alt="Funmilola Alade" fill className="object-cover" />
                 </div>
                 <div>
                   <p className="font-display text-lg font-medium">Funmilola Alade (FAD)</p>

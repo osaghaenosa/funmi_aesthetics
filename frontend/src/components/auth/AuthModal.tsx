@@ -36,8 +36,9 @@ export default function AuthModal() {
         toast.success("Welcome to Funmi's Aesthetics! 🎉");
       }
       close();
-    } catch (err: unknown) {
-      const msg = (err as { response?: { data?: { message?: string } } })?.response?.data?.message || 'Something went wrong.';
+    } catch (err: any) {
+      const data = err?.response?.data;
+      const msg = data?.message || data?.errors?.[0]?.msg || 'Something went wrong.';
       toast.error(msg);
     }
   };

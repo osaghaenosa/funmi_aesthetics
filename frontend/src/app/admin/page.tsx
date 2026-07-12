@@ -4,20 +4,13 @@ import { useEffect, useState } from 'react';
 import { Users, ShoppingCart, Package } from 'lucide-react';
 import { authApi, orderApi, productApi } from '@/lib/api';
 import { useAuthStore } from '@/store/authStore';
-import { useRouter } from 'next/navigation';
 
 export default function AdminDashboard() {
   const { user } = useAuthStore();
-  const router = useRouter();
   const [stats, setStats] = useState({ users: 0, orders: 0, products: 0 });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (user && user.role !== 'admin') {
-      router.push('/');
-      return;
-    }
-
     const fetchStats = async () => {
       try {
         const [usersRes, ordersRes, productsRes] = await Promise.all([
@@ -40,7 +33,7 @@ export default function AdminDashboard() {
     if (user?.role === 'admin') {
       fetchStats();
     }
-  }, [user, router]);
+  }, [user]);
 
   if (!user || user.role !== 'admin') return null;
 

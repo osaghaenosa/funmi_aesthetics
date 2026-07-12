@@ -1,23 +1,29 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { productApi } from '@/lib/api';
 import { useAuthStore } from '@/store/authStore';
 import Image from 'next/image';
+import AddProductModal from '@/components/admin/AddProductModal';
 
 export default function AdminProducts() {
   const { user } = useAuthStore();
   const [products, setProducts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const fetchProducts = useCallback(() => {
+    productApi.getAll().then((res) => {
+      setProducts(res.data.products || res.data);
+      setLoading(false);
+    }).catch(console.error);
+  }, []);
 
   useEffect(() => {
     if (user?.role === 'admin') {
-      productApi.getAll().then((res) => {
-        setProducts(res.data.products || res.data);
-        setLoading(false);
-      }).catch(console.error);
+      fetchProducts();
     }
-  }, [user]);
+  }, [user, fetchProducts]);
 
   if (loading) return <div>Loading products...</div>;
 
@@ -25,7 +31,10 @@ export default function AdminProducts() {
     <div>
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-cormorant font-semibold">Products</h1>
-        <button className="bg-ink text-warm-white px-4 py-2 rounded hover:bg-ink-light transition">
+        <button 
+          onClick={() => setIsModalOpen(true)}
+          className="bg-ink text-warm-white px-4 py-2 rounded hover:bg-ink-light transition"
+        >
           Add Product
         </button>
       </div>
@@ -46,7 +55,7 @@ export default function AdminProducts() {
               <tr key={p._id} className="hover:bg-warm-white/50">
                 <td className="p-4">
                   <div className="w-12 h-12 relative bg-warm-white rounded overflow-hidden border border-stone/10">
-                    <Image src={p.images[0]} alt={p.name} fill className="object-cover" />
+                    {p.images?.[0] && <Image src={p.images[0]} alt={p.name} fill className="object-cover" />}
                   </div>
                 </td>
                 <td className="p-4 font-medium">{p.name}</td>
@@ -61,6 +70,12 @@ export default function AdminProducts() {
           </tbody>
         </table>
       </div>
+
+      <AddProductModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+        onSuccess={fetchProducts} 
+      />
     </div>
   );
 }

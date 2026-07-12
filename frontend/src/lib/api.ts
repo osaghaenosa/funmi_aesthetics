@@ -35,7 +35,8 @@ api.interceptors.response.use(
       } catch {
         if (typeof window !== 'undefined') {
           localStorage.removeItem('accessToken');
-          window.location.href = '/auth/login';
+          window.location.href = '/';
+          window.dispatchEvent(new CustomEvent('open-auth', { detail: 'login' }));
         }
       }
     }
