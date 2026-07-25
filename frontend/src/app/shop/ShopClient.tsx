@@ -61,9 +61,9 @@ export default function ShopClient() {
       if (gender) params.gender = gender;
       if (search) params.search = search;
       const { data } = await productApi.getAll(params);
-      setProducts(data.products?.length ? data.products : MOCK);
+      setProducts(data.products || []);
     } catch {
-      setProducts(MOCK);
+      setProducts([]);
     } finally {
       setLoading(false);
     }
@@ -181,7 +181,11 @@ export default function ShopClient() {
         ) : filtered.length === 0 ? (
           <div className="text-center py-24">
             <p className="font-display text-3xl font-light mb-3">No products found</p>
-            <p className="text-ink-soft text-sm">Try adjusting your filters</p>
+            <p className="text-ink-soft text-sm">
+              {category || gender || search
+                ? 'Try adjusting your filters or search term.'
+                : 'Products are being added soon — check back later!'}
+            </p>
           </div>
         ) : (
           <>

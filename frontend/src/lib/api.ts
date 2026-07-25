@@ -81,3 +81,17 @@ export const orderApi = {
   updateStatus: (id: string, data: { status: string; trackingNumber?: string }) =>
     api.patch(`/orders/${id}/status`, data),
 };
+
+// ── Upload (ImageKit) ──────────────────────────────────────
+export const uploadApi = {
+  /** Fetches a short-lived ImageKit auth token from the backend (admin only). */
+  getAuthToken: () =>
+    api.get<{
+      success: boolean;
+      token: string;
+      expire: number;
+      signature: string;
+      publicKey: string;
+      urlEndpoint: string;
+    }>('/upload/auth'),
+};
