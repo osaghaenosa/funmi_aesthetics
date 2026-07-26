@@ -2,44 +2,55 @@ import axios from 'axios';
 
 const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api',
-  withCredentials: true,
+  withCredentials: true, // always send cookies (accessToken, refreshToken)
   headers: { 'Content-Type': 'application/json' },
 });
 
-// Attach token from localStorage if present
-api.interceptors.request.use((config) => {
-  if (typeof window !== 'undefined') {
-    const token = localStorage.getItem('accessToken');
-    if (token) config.headers.Authorization = `Bearer ${token}`;
-  }
-  return config;
-});
+// ── Auto-refresh on 401 ─────────────────────────────────────
+// The backend already validates the httpOnly cookie on every request.
+// If the access token cookie expires, we call /auth/refresh (which uses the
+// refreshToken cookie) to get a fresh one, then replay the original request.
+let isRefreshing = false;
+let refreshQueue: Array<() => void> = [];
 
-// Auto-refresh on 401
 api.interceptors.response.use(
   (res) => res,
   async (error) => {
     const original = error.config;
+
     if (error.response?.status === 401 && !original._retry) {
       original._retry = true;
+
+      if (isRefreshing) {
+        // Queue the request while a refresh is already in-flight
+        return new Promise((resolve) => {
+          refreshQueue.push(() => resolve(api(original)));
+        });
+      }
+
+      isRefreshing = true;
       try {
-        const { data } = await axios.post(
-          `${process.env.NEXT_PUBLIC_API_URL}/auth/refresh`,
+        // refreshToken cookie is sent automatically via withCredentials
+        await axios.post(
+          `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api'}/auth/refresh`,
           {},
           { withCredentials: true }
         );
-        const newToken = data.accessToken;
-        if (typeof window !== 'undefined') localStorage.setItem('accessToken', newToken);
-        original.headers.Authorization = `Bearer ${newToken}`;
+        // Flush queued requests
+        refreshQueue.forEach((cb) => cb());
+        refreshQueue = [];
         return api(original);
       } catch {
+        // Refresh failed — session truly expired; open login modal
+        refreshQueue = [];
         if (typeof window !== 'undefined') {
-          localStorage.removeItem('accessToken');
-          window.location.href = '/';
           window.dispatchEvent(new CustomEvent('open-auth', { detail: 'login' }));
         }
+      } finally {
+        isRefreshing = false;
       }
     }
+
     return Promise.reject(error);
   }
 );

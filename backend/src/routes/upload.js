@@ -12,6 +12,10 @@ function getImageKit() {
     return null;
   }
 
+  if (IMAGEKIT_PUBLIC_KEY.includes('your_') || IMAGEKIT_PRIVATE_KEY.includes('your_')) {
+    return null;
+  }
+
   return new ImageKit({
     publicKey: IMAGEKIT_PUBLIC_KEY,
     privateKey: IMAGEKIT_PRIVATE_KEY,
@@ -36,7 +40,7 @@ router.get('/auth', protect, adminOnly, (req, res) => {
   }
 
   try {
-    const authParams = ik.getAuthenticationParameters();
+    const authParams = ik.helper.getAuthenticationParameters();
     res.json({
       success: true,
       ...authParams,
@@ -44,7 +48,8 @@ router.get('/auth', protect, adminOnly, (req, res) => {
       urlEndpoint: process.env.IMAGEKIT_URL_ENDPOINT,
     });
   } catch (err) {
-    res.status(500).json({ success: false, message: 'Failed to generate ImageKit auth token.' });
+    console.error('ImageKit auth error:', err);
+    res.status(500).json({ success: false, message: `Failed to generate ImageKit auth token: ${err.message}` });
   }
 });
 

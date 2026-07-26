@@ -36,20 +36,15 @@ async function uploadToImageKit(
   form.append('signature', authToken.signature);
   form.append('publicKey', authToken.publicKey);
 
-  const res = await fetch(`${authToken.urlEndpoint.replace(/\/$/, '')}/api/v1/files/upload`, {
+  const res = await fetch('https://upload.imagekit.io/api/v1/files/upload', {
     method: 'POST',
     body: form,
   });
 
   if (!res.ok) {
-    // fallback to ImageKit's upload API endpoint
-    const uploadRes = await fetch('https://upload.imagekit.io/api/v1/files/upload', {
-      method: 'POST',
-      body: form,
-    });
-    if (!uploadRes.ok) throw new Error('ImageKit upload failed');
-    const data = await uploadRes.json();
-    return data.url as string;
+    let errData;
+    try { errData = await res.json(); } catch(e) {}
+    throw new Error(errData?.message || `ImageKit upload failed with status ${res.status}`);
   }
 
   const data = await res.json();
@@ -76,8 +71,6 @@ export default function AddProductModal({ isOpen, onClose, onSuccess }: AddProdu
     sku: '',
     isFeatured: false,
   });
-
-  if (!isOpen) return null;
 
   const change = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
@@ -112,12 +105,17 @@ export default function AddProductModal({ isOpen, onClose, onSuccess }: AddProdu
       setUploadedUrls((prev) => [...prev, ...urls]);
       toast.success(`${urls.length} image${urls.length > 1 ? 's' : ''} uploaded!`);
     } catch (err: any) {
-      const msg = err?.response?.data?.message || err?.message || 'Image upload failed.';
-      // Give a friendly nudge if ImageKit isn't configured yet
-      if (msg.includes('not configured')) {
-        toast.error('⚙️ ImageKit not configured yet — add your keys to the .env files and restart the server.');
+      console.error('Upload Error:', err, err?.response?.data);
+      const msg: string = err?.response?.data?.message || err?.message || 'Image upload failed.';
+      
+      // The backend returns exactly this when keys are missing
+      if (msg.includes('not configured yet')) {
+        toast.error(
+          '⚙️ ImageKit not set up yet.\nAdd your keys to backend/.env and frontend/.env.local, then restart both servers.',
+          { duration: 6000 }
+        );
       } else {
-        toast.error(msg);
+        toast.error(`Upload failed: ${msg}`);
       }
     } finally {
       setUploading(false);
@@ -173,6 +171,9 @@ export default function AddProductModal({ isOpen, onClose, onSuccess }: AddProdu
       setSaving(false);
     }
   };
+
+  // All hooks declared above — safe to early-return now
+  if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-[999] bg-ink/60 backdrop-blur-md flex items-center justify-center p-4">

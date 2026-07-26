@@ -4,6 +4,7 @@ import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import CartDrawer from '@/components/shop/CartDrawer';
 import AuthModal from '@/components/auth/AuthModal';
+import SessionProvider from '@/components/auth/SessionProvider';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -24,6 +25,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body style={{ fontFamily: "'DM Sans', system-ui, sans-serif", WebkitFontSmoothing: 'antialiased' }}>
+        <SessionProvider />
         <Navbar />
         <main>{children}</main>
         <Footer />

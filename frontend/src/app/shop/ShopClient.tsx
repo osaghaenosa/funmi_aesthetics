@@ -31,18 +31,6 @@ const SORT_OPTIONS = [
   { value: '-price', label: 'Price: High → Low' },
 ];
 
-const MOCK: Product[] = [
-  { _id: '1', name: 'Drape Midi Dress', slug: 'drape-midi-dress', description: 'Elegant midi dress.', price: 29, priceNaira: 45000, category: "women's-fashion", gender: 'women', images: [], badge: 'New', stock: 35, tags: [], rating: 4.8, numReviews: 24, isFeatured: true },
-  { _id: '2', name: 'Structured Tote Bag', slug: 'structured-tote-bag', description: 'Premium tote.', price: 40, priceNaira: 62000, category: 'bags', gender: 'unisex', images: [], badge: 'Bestseller', stock: 20, tags: [], rating: 4.9, numReviews: 41, isFeatured: true },
-  { _id: '3', name: 'Clean Leather Sneakers', slug: 'clean-leather-sneakers', description: 'Minimalist sneakers.', price: 50, priceNaira: 78000, category: 'footwear', gender: 'unisex', images: [], badge: '', stock: 42, tags: [], rating: 4.7, numReviews: 18, isFeatured: true },
-  { _id: '4', name: 'Ceramic Table Lamp', slug: 'ceramic-table-lamp', description: 'Sculptural lamp.', price: 24, priceNaira: 38000, category: 'home-decor', gender: 'unisex', images: [], badge: '', stock: 15, tags: [], rating: 4.6, numReviews: 9, isFeatured: false },
-  { _id: '5', name: 'Merino Knit Scarf', slug: 'merino-knit-scarf', description: 'Soft merino wool.', price: 14, priceNaira: 22000, category: 'accessories', gender: 'unisex', images: [], badge: 'Sale', stock: 60, tags: [], rating: 4.5, numReviews: 32, isFeatured: false },
-  { _id: '6', name: 'Oxford Derby Shoes', slug: 'oxford-derby-shoes', description: 'Classic Oxfords.', price: 55, priceNaira: 85000, category: 'footwear', gender: 'men', images: [], badge: '', stock: 22, tags: [], rating: 4.7, numReviews: 14, isFeatured: false },
-  { _id: '7', name: 'Woven Rattan Mirror', slug: 'woven-rattan-mirror', description: 'Artisan mirror.', price: 35, priceNaira: 54000, category: 'home-decor', gender: 'unisex', images: [], badge: 'New', stock: 12, tags: [], rating: 4.8, numReviews: 7, isFeatured: true },
-  { _id: '8', name: 'Mini Crossbody Bag', slug: 'mini-crossbody-bag', description: 'Compact leather bag.', price: 28, priceNaira: 43000, category: 'bags', gender: 'women', images: [], badge: 'Bestseller', stock: 18, tags: [], rating: 4.9, numReviews: 29, isFeatured: true },
-  { _id: '9', name: 'Linen Throw Pillow Set', slug: 'linen-throw-pillow-set', description: 'Stone-washed pillows.', price: 12, priceNaira: 19500, category: 'home-decor', gender: 'unisex', images: [], badge: '', stock: 50, tags: [], rating: 4.4, numReviews: 11, isFeatured: false },
-];
-
 export default function ShopClient() {
   const searchParams = useSearchParams();
   const [products, setProducts] = useState<Product[]>([]);
