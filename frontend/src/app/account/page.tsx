@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Package, Heart, MapPin, Settings, LogOut, ChevronRight } from 'lucide-react';
 import { useAuthStore } from '@/store/authStore';
+import { useRequireAuth } from '@/hooks/useRequireAuth';
 import toast from 'react-hot-toast';
 
 const menuItems = [
@@ -15,17 +16,16 @@ const menuItems = [
 ];
 
 export default function AccountPage() {
-  const { user, isAuthenticated, logout, fetchMe } = useAuthStore();
+  const { user, logout } = useAuthStore();
+  const { isAuthenticated, isChecking } = useRequireAuth();
   const router = useRouter();
 
+  // Redirect home once we know for certain there's no session
   useEffect(() => {
-    if (!isAuthenticated) {
-      window.dispatchEvent(new CustomEvent('open-auth', { detail: 'login' }));
+    if (!isChecking && !isAuthenticated) {
       router.push('/');
-    } else {
-      fetchMe();
     }
-  }, [isAuthenticated]);
+  }, [isChecking, isAuthenticated, router]);
 
   const handleLogout = async () => {
     await logout();
@@ -33,7 +33,16 @@ export default function AccountPage() {
     router.push('/');
   };
 
-  if (!user) return null;
+  // Show spinner while session is being verified
+  if (isChecking) {
+    return (
+      <div className="pt-[70px] min-h-screen flex justify-center items-center">
+        <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-[#C9A96E]" />
+      </div>
+    );
+  }
+
+  if (!isAuthenticated || !user) return null;
 
   return (
     <div className="pt-[70px] min-h-screen bg-warm-white">
