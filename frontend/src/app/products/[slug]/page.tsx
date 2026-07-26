@@ -6,7 +6,7 @@ async function getProduct(slug: string): Promise<Product | null> {
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api'}/products/${slug}`,
-      { next: { revalidate: 300 } }
+      { cache: 'no-store' }
     );
     if (!res.ok) return null;
     const data = await res.json();

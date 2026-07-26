@@ -7,7 +7,7 @@ async function getFeaturedProducts(): Promise<Product[]> {
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api'}/products?featured=true&limit=6`,
-      { next: { revalidate: 300 } }
+      { cache: 'no-store' }
     );
     if (!res.ok) return [];
     const data = await res.json();

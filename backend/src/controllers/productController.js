@@ -31,11 +31,20 @@ export const getProducts = async (req, res, next) => {
   }
 };
 
-// GET /api/products/:slug
+// GET /api/products/:slug  (also handles _id as fallback)
 export const getProductBySlug = async (req, res, next) => {
   try {
-    const product = await Product.findOne({ slug: req.params.slug, isActive: true })
+    const { slug } = req.params;
+
+    // Try slug first
+    let product = await Product.findOne({ slug, isActive: true })
       .populate('reviews.user', 'firstName lastName avatar');
+
+    // Fallback: try MongoDB ObjectId in case the link uses _id
+    if (!product && slug.match(/^[a-f\d]{24}$/i)) {
+      product = await Product.findOne({ _id: slug, isActive: true })
+        .populate('reviews.user', 'firstName lastName avatar');
+    }
 
     if (!product) return res.status(404).json({ success: false, message: 'Product not found.' });
     res.json({ success: true, product });
